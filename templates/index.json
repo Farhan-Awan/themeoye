@@ -11,19 +11,64 @@
   "sections": {
     "hero": {
       "type": "hero-banner",
-      "settings": {}
+      "settings": {
+        "container_size": "full",
+        "background": "linear-gradient(46deg, rgba(255, 255, 255, 1) 84%, rgba(238, 238, 238, 1) 100%)",
+        "image": "shopify://shop_images/Desktop_Layout_5.png",
+        "show_gradient": true,
+        "gradient_color": "#ffffff",
+        "gradient_opacity": 40,
+        "heading": "Welcome to Themeoye",
+        "subheading": "A bold, minimal Shopify theme",
+        "cta_link": "shopify://products/til-death-pennant",
+        "cta_label": "Shop now",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 48,
+        "padding_bottom_mobile": 48
+      }
     },
     "featured": {
       "type": "featured-collection",
-      "settings": {}
+      "settings": {
+        "container_size": "default",
+        "background": "",
+        "collection": "",
+        "products_limit": 4,
+        "columns": 4,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 48,
+        "padding_bottom_mobile": 48
+      }
     },
     "image_with_text": {
       "type": "image-with-text",
-      "settings": {}
+      "settings": {
+        "container_size": "default",
+        "background": "",
+        "image_position": "left",
+        "heading": "Image With Text",
+        "text": "Add your description here.",
+        "cta_link": "",
+        "cta_label": "Learn more",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 48,
+        "padding_bottom_mobile": 48
+      }
     },
     "promotional": {
       "type": "promotional-grid",
-      "settings": {}
+      "settings": {
+        "container_size": "default",
+        "background": "",
+        "columns": 3,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 48,
+        "padding_bottom_mobile": 48
+      }
     }
   },
   "order": [

@@ -1,1 +1,25 @@
-{"current":{"theme_name":"Themeoye","theme_version":"1.0.0","color_primary":"#0F0F0F","color_background":"#FFFFFF","color_foreground":"#0F0F0F","color_button":"#0F0F0F","color_button_text":"#FFFFFF","font_heading":"playfair_display_n4","font_body":"inter_n4","container_width":"1400px","color_scheme_default":"light"},"presets":{}}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "theme_name": "Themeoye",
+    "theme_version": "1.0.0",
+    "color_primary": "#0F0F0F",
+    "color_background": "#FFFFFF",
+    "color_foreground": "#0F0F0F",
+    "color_button": "#0F0F0F",
+    "color_button_text": "#FFFFFF",
+    "font_heading": "playfair_display_n4",
+    "font_body": "inter_n4",
+    "container_width": "1400px",
+    "color_scheme_default": "light"
+  },
+  "presets": {}
+}

@@ -11,7 +11,50 @@
   "sections": {
     "main": {
       "type": "testimonials",
-      "settings": {}
+      "blocks": {
+        "testimonial_aTEnKA": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "",
+            "author": ""
+          }
+        },
+        "testimonial_47DgHA": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "",
+            "author": ""
+          }
+        },
+        "testimonial_6iV4zR": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "",
+            "author": ""
+          }
+        },
+        "testimonial_iz9FGV": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "",
+            "author": ""
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_aTEnKA",
+        "testimonial_47DgHA",
+        "testimonial_6iV4zR",
+        "testimonial_iz9FGV"
+      ],
+      "settings": {
+        "container_size": "default",
+        "background": "",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 48,
+        "padding_bottom_mobile": 48
+      }
     }
   },
   "order": [

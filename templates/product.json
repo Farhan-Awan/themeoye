@@ -54,9 +54,25 @@
         "padding_top_mobile": 48,
         "padding_bottom_mobile": 48
       }
+    },
+    "featured_collection_brG9cy": {
+      "type": "featured-collection",
+      "name": "Featured Collection",
+      "settings": {
+        "container_size": "default",
+        "background": "linear-gradient(180deg, rgba(255, 145, 129, 1), rgba(254, 91, 124, 1) 49%, rgba(255, 140, 162, 1) 100%)",
+        "collection": "all-bird",
+        "products_limit": 4,
+        "columns": 4,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 48,
+        "padding_bottom_mobile": 48
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "featured_collection_brG9cy"
   ]
 }

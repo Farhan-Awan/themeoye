@@ -1,1 +1,87 @@
-[]
+[
+  {
+    "name": "Theme Info",
+    "settings": [
+      { "type": "text", "id": "theme_name", "label": "Theme name", "default": "Themeoye" },
+      { "type": "text", "id": "theme_version", "label": "Theme version", "default": "1.0.0" },
+      { "type": "url", "id": "documentation_url", "label": "Documentation link", "default": "https://github.com/Farhan-Awan/themeoye" }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "header", "content": "Brand Colors" },
+      { "type": "color", "id": "color_primary", "label": "Primary color", "default": "#0F0F0F" },
+      { "type": "color", "id": "color_secondary", "label": "Secondary color", "default": "#C9A96E" },
+      { "type": "color", "id": "color_accent", "label": "Accent color", "default": "#E8D5B7" },
+      { "type": "header", "content": "Backgrounds" },
+      { "type": "color", "id": "color_background", "label": "Background 1", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_background_2", "label": "Background 2", "default": "#F7F6F4" },
+      { "type": "color", "id": "color_background_3", "label": "Background 3", "default": "#EDEBE7" },
+      { "type": "header", "content": "Text" },
+      { "type": "color", "id": "color_foreground", "label": "Text primary", "default": "#0F0F0F" },
+      { "type": "color", "id": "color_foreground_secondary", "label": "Text secondary", "default": "#6B6B6B" },
+      { "type": "header", "content": "Button" },
+      { "type": "color", "id": "color_button", "label": "Button background", "default": "#0F0F0F" },
+      { "type": "color", "id": "color_button_text", "label": "Button text", "default": "#FFFFFF" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "font_picker", "id": "font_heading", "label": "Heading font", "default": "playfair_display_n4" },
+      { "type": "range", "id": "font_heading_size", "label": "Heading size", "min": 20, "max": 100, "step": 1, "unit": "px", "default": 40 },
+      { "type": "font_picker", "id": "font_body", "label": "Body font", "default": "inter_n4" },
+      { "type": "range", "id": "font_body_size", "label": "Body size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 16 }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      { "type": "select", "id": "container_width", "label": "Container width", "options": [ { "value": "1200px", "label": "Narrow" }, { "value": "1400px", "label": "Default" }, { "value": "1600px", "label": "Wide" } ], "default": "1400px" }
+    ]
+  },
+  {
+    "name": "Buttons",
+    "settings": [
+      { "type": "range", "id": "button_border_radius", "label": "Button border radius", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 4 },
+      { "type": "select", "id": "button_style", "label": "Button style", "options": [ { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" } ], "default": "filled" }
+    ]
+  },
+  {
+    "name": "Cards",
+    "settings": [
+      { "type": "range", "id": "card_border_radius", "label": "Card border radius", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 8 },
+      { "type": "select", "id": "card_image_ratio", "label": "Image ratio", "options": [ { "value": "portrait", "label": "Portrait" }, { "value": "square", "label": "Square" }, { "value": "landscape", "label": "Landscape" } ], "default": "square" }
+    ]
+  },
+  {
+    "name": "Product",
+    "settings": [
+      { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": true },
+      { "type": "checkbox", "id": "show_sku", "label": "Show SKU", "default": false },
+      { "type": "select", "id": "product_media_layout", "label": "Media layout", "options": [ { "value": "gallery", "label": "Gallery" }, { "value": "stacked", "label": "Stacked" } ], "default": "gallery" }
+    ]
+  },
+  {
+    "name": "Collection",
+    "settings": [
+      { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 24 },
+      { "type": "range", "id": "columns_desktop", "label": "Columns (desktop)", "min": 2, "max": 5, "step": 1, "default": 4 }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      { "type": "text", "id": "social_instagram_link", "label": "Instagram link" },
+      { "type": "text", "id": "social_facebook_link", "label": "Facebook link" },
+      { "type": "text", "id": "social_twitter_link", "label": "Twitter link" }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Favicon image" }
+    ]
+  }
+]

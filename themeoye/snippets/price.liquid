@@ -1,0 +1,14 @@
+{%- comment -%}
+Themeoye Price snippet
+- Handles price, compare at, sale, and unit price
+{%- endcomment -%}
+
+{%- assign price = product.price | money -%}
+{%- assign compare_at = product.compare_at_price | money -%}
+<span class="price{% if product.compare_at_price > product.price %} price--sale{% endif %}">{{ price }}</span>
+{%- if product.compare_at_price > product.price -%}
+  <span class="price price--compare">{{ compare_at }}</span>
+{%- endif -%}
+{%- if product.unit_price_measurement -%}
+  <span class="price price--unit">{{ product.unit_price | money }} / {{ product.unit_price_measurement.reference_value }}{{ product.unit_price_measurement.reference_unit }}</span>
+{%- endif -%}

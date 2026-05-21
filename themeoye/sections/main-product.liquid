@@ -1,0 +1,329 @@
+{%- comment -%}
+  Themeoye Main Product Section
+  - Premium block-based architecture (OS 2.0)
+  - Sticky details column, touch-enabled media gallery, custom web components
+{%- endcomment -%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    background: {{ section.settings.background }};
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+  @media (min-width: 768px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<section class="main-product container container--{{ section.settings.container_size }}">
+  <div class="main-product__container">
+    
+    {% comment %} Left Media Gallery Column {% endcomment %}
+    <div class="main-product__media-col">
+      {% render 'product-media', product: product %}
+    </div>
+
+    {% comment %} Right Info Sticky Column {% endcomment %}
+    <div class="main-product__info-col">
+      <div class="main-product__info-sticky">
+        
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            
+            {%- when '@app' -%}
+              {% render block %}
+
+            {%- when 'title' -%}
+              <div class="product-block product-block--title" {{ block.shopify_attributes }}>
+                {%- if block.settings.show_vendor and product.vendor != blank -%}
+                  <span class="product-vendor uppercase">{{ product.vendor }}</span>
+                {%- endif -%}
+                <h1 class="product-title">{{ product.title }}</h1>
+              </div>
+
+            {%- when 'price' -%}
+              <div class="product-block product-block--price" {{ block.shopify_attributes }} id="price-{{ section.id }}">
+                {% render 'price', product: product %}
+                
+                {%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
+                  <div class="product-tax-note">
+                    {%- if cart.taxes_included -%}
+                      Taxes included.
+                    {%- endif -%}
+                    {%- if shop.shipping_policy.body != blank -%}
+                      <a href="{{ shop.shipping_policy.url }}">Shipping</a> calculated at checkout.
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </div>
+
+            {%- when 'variant_picker' -%}
+              <div class="product-block product-block--variants" {{ block.shopify_attributes }}>
+                {%- unless product.has_only_default_variant -%}
+                  <variant-selects class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ product.url }}">
+                    {%- for option in product.options_with_values -%}
+                      <div class="product-variant-option" data-option-index="{{ forloop.index0 }}">
+                        <label class="form__label">{{ option.name }}</label>
+                        
+                        {%- if block.settings.picker_type == 'swatch' and option.name == 'Color' or option.name == 'Colour' -%}
+                          <div class="product-swatch-list">
+                            {%- for value in option.values -%}
+                              <input 
+                                type="radio" 
+                                id="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}" 
+                                name="{{ option.name }}" 
+                                value="{{ value | escape }}"
+                                {% if option.selected_value == value %}checked{% endif %}
+                                class="sr-only"
+                              >
+                              <label for="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}">
+                                {% render 'color-swatch', value: value, selected: false %}
+                              </label>
+                            {%- endfor -%}
+                          </div>
+                        {%- else -%}
+                          <div class="select-wrapper">
+                            <select name="options[{{ option.name | escape }}]" class="variant-select">
+                              {%- for value in option.values -%}
+                                <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
+                                  {{ value }}
+                                </option>
+                              {%- endfor -%}
+                            </select>
+                          </div>
+                        {%- endif -%}
+                      </div>
+                    {%- endfor -%}
+
+                    <script type="application/json" id="VariantJson-{{ section.id }}">
+                      {{ product.variants | json }}
+                    </script>
+                  </variant-selects>
+                {%- endunless -%}
+              </div>
+
+            {%- when 'quantity_selector' -%}
+              <div class="product-block product-block--quantity" {{ block.shopify_attributes }}>
+                <label class="form__label">{{ 'product.quantity' | t | default: 'Quantity' }}</label>
+                {% render 'quantity-input', id: 'Quantity-' | append: section.id %}
+              </div>
+
+            {%- when 'buy_buttons' -%}
+              <div class="product-block product-block--buttons" {{ block.shopify_attributes }}>
+                {% render 'buy-buttons', 
+                  product: product, 
+                  show_quantity: false, 
+                  show_dynamic_checkout: block.settings.show_dynamic_checkout 
+                %}
+              </div>
+
+            {%- when 'description' -%}
+              {%- if product.description != blank -%}
+                <div class="product-block product-block--description" {{ block.shopify_attributes }}>
+                  <div class="product-description rte">
+                    {{ product.description }}
+                  </div>
+                </div>
+              {%- endif -%}
+
+            {%- when 'collapsible_tab' -%}
+              <div class="product-block product-block--tab" {{ block.shopify_attributes }}>
+                <details class="product-tab" id="Tab-{{ block.id }}">
+                  <summary class="product-tab__summary">
+                    <span class="product-tab__title">{{ block.settings.heading }}</span>
+                    <span class="product-tab__icon">{% render 'icon-plus' %}</span>
+                  </summary>
+                  <div class="product-tab__content rte">
+                    {{ block.settings.content }}
+                    {%- if block.settings.page != blank -%}
+                      {{ block.settings.page.content }}
+                    {%- endif -%}
+                  </div>
+                </details>
+              </div>
+
+          {%- endcase -%}
+        {%- endfor -%}
+        
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .main-product__container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  @media (min-width: 990px) {
+    .main-product__container {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+    }
+  }
+  .main-product__info-sticky {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .product-block {
+    display: block;
+    width: 100%;
+  }
+  .product-vendor {
+    font-size: var(--font-size-xs, 0.75rem);
+    color: var(--color-foreground-secondary);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+  }
+  .product-title {
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-4xl, 2.5rem);
+    margin: 0 0 0.5rem 0;
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-heading-weight);
+  }
+  .product-tax-note {
+    font-size: var(--font-size-xs, 0.75rem);
+    color: var(--color-foreground-secondary);
+    margin-top: 0.5rem;
+  }
+  .product-tax-note a {
+    text-decoration: underline;
+  }
+  .product-variant-option {
+    margin-bottom: 1rem;
+  }
+  .product-variant-option .form__label {
+    display: block;
+    font-size: var(--font-size-sm, 0.875rem);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-foreground-secondary);
+  }
+  .product-swatch-list {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .product-swatch-list input:checked + label .color-swatch-circle {
+    transform: scale(1.15);
+    border-color: var(--color-border-strong);
+  }
+  .product-swatch-list input:checked + label .color-swatch-circle::after {
+    content: '';
+    position: absolute;
+    top: -4px; left: -4px; right: -4px; bottom: -4px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 50%;
+  }
+  .select-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+  }
+  .variant-select {
+    width: 100%;
+    height: 44px;
+    padding: 0 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-input, 4px);
+    background: var(--color-background);
+    appearance: none;
+    cursor: pointer;
+  }
+  .select-wrapper::after {
+    content: '↓';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--color-foreground-secondary);
+  }
+  
+  /* Collapsible Tab Accordions */
+  .product-tab {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1rem;
+  }
+  .product-tab__summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.75rem 0;
+    list-style: none;
+  }
+  .product-tab__summary::-webkit-details-marker {
+    display: none;
+  }
+  .product-tab__icon {
+    display: flex;
+    align-items: center;
+  }
+  .product-tab[open] .product-tab__icon {
+    transform: rotate(45deg);
+  }
+  .product-tab__content {
+    padding: 0.5rem 0 1rem 0;
+    font-size: var(--font-size-sm, 0.875rem);
+    color: var(--color-foreground-secondary);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Main Product",
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "container_size", "label": "Container size", "options": [ { "value": "default", "label": "Default" }, { "value": "narrow", "label": "Narrow" }, { "value": "wide", "label": "Wide" }, { "value": "full", "label": "Full width" } ], "default": "default" },
+    { "type": "color_background", "id": "background", "label": "Section background" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Padding top (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Padding bottom (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    { "type": "title", "name": "Title", "limit": 1, "settings": [
+      { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": true }
+    ]},
+    { "type": "price", "name": "Price", "limit": 1 },
+    { "type": "variant_picker", "name": "Variant Picker", "limit": 1, "settings": [
+      { "type": "select", "id": "picker_type", "label": "Picker type", "options": [ { "value": "dropdown", "label": "Dropdowns" }, { "value": "swatch", "label": "Swatches" } ], "default": "swatch" }
+    ]},
+    { "type": "quantity_selector", "name": "Quantity Selector", "limit": 1 },
+    { "type": "buy_buttons", "name": "Buy Buttons", "limit": 1, "settings": [
+      { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button", "default": true }
+    ]},
+    { "type": "description", "name": "Description", "limit": 1 },
+    { "type": "collapsible_tab", "name": "Collapsible Tab", "settings": [
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Collapsible Tab" },
+      { "type": "richtext", "id": "content", "label": "Tab Content" },
+      { "type": "page", "id": "page", "label": "Content from page" }
+    ]}
+  ],
+  "presets": [ { 
+    "name": "Main Product", 
+    "category": "Product",
+    "blocks": [
+      { "type": "title" },
+      { "type": "price" },
+      { "type": "variant_picker" },
+      { "type": "quantity_selector" },
+      { "type": "buy_buttons" },
+      { "type": "description" }
+    ]
+  } ]
+}
+{% endschema %}

@@ -1,0 +1,12 @@
+{%- comment -%}
+Themeoye Header Search snippet
+- Predictive search input and results container
+{%- endcomment -%}
+
+<div class="header-search" role="search">
+  <form action="/search" method="get" class="header-search__form" autocomplete="off">
+    <input type="search" name="q" class="header-search__input" placeholder="{{ 'search.placeholder' | t }}" aria-label="{{ 'search.title' | t }}">
+    <button type="submit" class="header-search__button" aria-label="{{ 'header.search' | t }}">🔍</button>
+  </form>
+  <div class="predictive-search" id="predictive-search-results" aria-live="polite"></div>
+</div>

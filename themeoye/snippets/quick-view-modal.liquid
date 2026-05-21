@@ -1,0 +1,17 @@
+{%- comment -%}
+Themeoye Quick View Modal snippet
+- Modal for product quick view
+{%- endcomment -%}
+
+<div class="modal quick-view-modal" id="quick-view-modal-{{ product.id }}" tabindex="-1" aria-modal="true" role="dialog">
+  <div class="modal__content">
+    <button class="modal__close" aria-label="Close">&times;</button>
+    <div class="modal__body">
+      <h2>{{ product.title }}</h2>
+      <div class="modal__gallery">{%- render 'product-media', product: product -%}</div>
+      <div class="modal__price">{%- render 'price', product: product -%}</div>
+      <div class="modal__form">{%- render 'quick-add', product: product -%}</div>
+      <div class="modal__description">{{ product.description | strip_html | truncate: 200 }}</div>
+    </div>
+  </div>
+</div>

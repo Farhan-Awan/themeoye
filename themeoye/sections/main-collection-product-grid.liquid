@@ -1,0 +1,99 @@
+{%- comment -%}
+  Themeoye Main Collection Product Grid Section
+  - Renders the products inside a collection dynamically (no static collection setting picker)
+  - Supports pagination, custom desktop/mobile grid sizes, facets filtering
+{%- endcomment -%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    background: {{ section.settings.background }};
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+  @media (min-width: 768px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<section class="main-collection-product-grid container container--{{ section.settings.container_size }}">
+  
+  <div class="collection-header">
+    <h1 class="collection-title">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="collection-description rte">{{ collection.description }}</div>
+    {%- endif -%}
+  </div>
+
+  {% if section.settings.show_facets %}
+    {% render 'facets', collection: collection %}
+  {% endif %}
+
+  {% paginate collection.products by section.settings.products_per_page %}
+    {% if collection.products.size > 0 %}
+      <div class="grid collection-grid" style="--columns-desktop: {{ section.settings.columns }};">
+        {% for product in collection.products %}
+          {% render 'card-product', product: product %}
+        {% endfor %}
+      </div>
+
+      {% render 'pagination', paginate: paginate %}
+    {% else %}
+      <div class="collection-empty text-center">
+        <h2>No products found</h2>
+        <p>Use different filters or check back later.</p>
+      </div>
+    {% endif %}
+  {% endpaginate %}
+</section>
+
+<style>
+  .collection-header {
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+  .collection-title {
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-5xl, 3.5rem);
+    margin: 0 0 0.75rem 0;
+  }
+  .collection-description {
+    max-width: var(--container-max-width-narrow);
+    margin: 0 auto;
+    color: var(--color-foreground-secondary);
+  }
+  .collection-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 768px) {
+    .collection-grid {
+      grid-template-columns: repeat(var(--columns-desktop, 4), 1fr);
+    }
+  }
+  .collection-empty {
+    padding: 4rem 1rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--border-radius-card);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "container_size", "label": "Container size", "options": [ { "value": "default", "label": "Default" }, { "value": "narrow", "label": "Narrow" }, { "value": "wide", "label": "Wide" }, { "value": "full", "label": "Full width" } ], "default": "default" },
+    { "type": "color_background", "id": "background", "label": "Section background" },
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 24 },
+    { "type": "range", "id": "columns", "label": "Columns (desktop)", "min": 2, "max": 4, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_facets", "label": "Show collection filters", "default": true },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Padding top (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Padding bottom (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "presets": [ { "name": "Collection Grid", "category": "Collection" } ]
+}
+{% endschema %}

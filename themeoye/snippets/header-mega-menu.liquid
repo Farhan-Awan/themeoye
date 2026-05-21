@@ -1,0 +1,19 @@
+{%- comment -%}
+Themeoye Mega Menu snippet for header navigation
+- Supports images, columns, and nested links
+{%- endcomment -%}
+
+<nav class="mega-menu" aria-label="Mega menu">
+  <!-- Example structure, replace with dynamic menu logic as needed -->
+  <ul class="mega-menu__list">
+    <li class="mega-menu__item"><a href="/collections/all">All Products</a></li>
+    <li class="mega-menu__item"><a href="/collections/new">New Arrivals</a></li>
+    <li class="mega-menu__item"><a href="/collections/sale">Sale</a></li>
+    <li class="mega-menu__item mega-menu__item--with-image">
+      <a href="/collections/featured">Featured</a>
+      <div class="mega-menu__image">
+        <img src="https://cdn.shopify.com/s/files/1/0000/0001/collections/featured.jpg?v=1" alt="Featured Collection" width="120" height="80">
+      </div>
+    </li>
+  </ul>
+</nav>

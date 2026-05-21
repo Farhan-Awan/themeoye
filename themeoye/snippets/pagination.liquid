@@ -1,0 +1,95 @@
+{%- comment -%}
+  Themeoye Pagination Snippet
+  - Inputs:
+    - paginate: Paginate object (required)
+{%- endcomment -%}
+
+{%- if paginate.parts.size > 0 -%}
+  <nav class="pagination" role="navigation" aria-label="Pagination Navigation">
+    <ul class="pagination__list">
+      
+      {%- if paginate.previous -%}
+        <li>
+          <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="Previous Page">
+            &larr; Prev
+          </a>
+        </li>
+      {%- endif -%}
+
+      {%- for part in paginate.parts -%}
+        <li>
+          {%- if part.is_link -%}
+            <a href="{{ part.url }}" class="pagination__item" aria-label="Go to page {{ part.title }}">
+              {{ part.title }}
+            </a>
+          {%- else -%}
+            {%- if part.title == paginate.current_page -%}
+              <span class="pagination__item pagination__item--current" aria-current="page" aria-label="Current page, page {{ part.title }}">
+                {{ part.title }}
+              </span>
+            {%- else -%}
+              <span class="pagination__item pagination__item--decay">
+                {{ part.title }}
+              </span>
+            {%- endif -%}
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+
+      {%- if paginate.next -%}
+        <li>
+          <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="Next Page">
+            Next &rarr;
+          </a>
+        </li>
+      {%- endif -%}
+
+    </ul>
+  </nav>
+{%- endif -%}
+
+<style>
+  .pagination {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .pagination__list {
+    display: inline-flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .pagination__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    padding: 0 0.75rem;
+    border-radius: var(--border-radius-badge, 4px);
+    border: 1px solid var(--color-border);
+    font-size: var(--font-size-sm, 0.875rem);
+    font-weight: 600;
+    color: var(--color-foreground);
+    background: var(--color-background);
+    transition: background var(--duration-fast) var(--easing-default), border-color var(--duration-fast) var(--easing-default);
+  }
+  .pagination__item:hover {
+    background: var(--color-background-2);
+    border-color: var(--color-border-strong);
+  }
+  .pagination__item--current {
+    background: var(--color-foreground);
+    color: var(--color-background);
+    border-color: var(--color-foreground);
+  }
+  .pagination__item--decay {
+    border: none;
+    background: none;
+    color: var(--color-foreground-tertiary);
+  }
+</style>

@@ -1,0 +1,9 @@
+{%- comment -%}
+Themeoye Quick Add snippet
+- Renders add-to-cart button for product card
+{%- endcomment -%}
+
+<form method="post" action="/cart/add" class="quick-add" data-product-id="{{ product.id }}">
+  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+  <button type="submit" class="button button--small">{{ 'product.add_to_cart' | t }}</button>
+</form>

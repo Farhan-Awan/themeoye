@@ -1,0 +1,55 @@
+{%- comment -%}
+Themeoye Featured Collection Section
+- Displays a collection grid with products
+- Follows section schema and output pattern from master brief
+{%- endcomment -%}
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "container_size", "label": "Container size", "options": [ { "value": "default", "label": "Default" }, { "value": "narrow", "label": "Narrow" }, { "value": "wide", "label": "Wide" }, { "value": "full", "label": "Full width" } ], "default": "default" },
+    { "type": "color_background", "id": "background", "label": "Section background" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_limit", "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 4 },
+    { "type": "range", "id": "columns", "label": "Columns", "min": 2, "max": 4, "step": 1, "default": 4 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Padding top (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Padding bottom (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "presets": [ { "name": "Featured Collection", "category": "Collection" } ]
+}
+{% endschema %}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    background: {{ section.settings.background }};
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+  @media (min-width: 768px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<section class="featured-collection container container--{{ section.settings.container_size }}">
+  <h2 data-animate>{{ collections[section.settings.collection].title | default: "Featured Collection" }}</h2>
+  <div class="grid" style="grid-template-columns: repeat({{ section.settings.columns }}, 1fr);">
+    {% for product in collections[section.settings.collection].products limit: section.settings.products_limit %}
+      <div data-animate style="transition-delay: {{ forloop.index | times: 100 }}ms;">
+        {% render 'card-product', product: product %}
+      </div>
+    {%- else -%}
+      {%- for i in (1..section.settings.products_limit) -%}
+        <div data-animate style="transition-delay: {{ forloop.index | times: 100 }}ms;">
+          {% render 'card-product' %}
+        </div>
+      {%- endfor -%}
+    {% endfor %}
+  </div>
+</section>

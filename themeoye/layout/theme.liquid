@@ -1,0 +1,88 @@
+{%- comment -%}
+Themeoye main layout file
+- Loads all head tags, fonts, css-variables, scripts
+- Sets up <html> with data-theme and lang
+- Includes header, footer, and main content
+{%- endcomment -%}
+
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}" data-theme="{{ settings.color_scheme_default }}" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_background }}">
+    <title>{{ page_title }}{% if current_page != 1 %} – {{ current_page }}{% endif %}{% unless page_title contains shop.name %} – {{ shop.name }}{% endunless %}</title>
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="icon" type="image/png" href="{{ settings.favicon | img_url: '32x32' }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    
+    {%- render 'css-variables' -%}
+    <link rel="stylesheet" href="{{ 'base.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}">
+    
+    {%- liquid
+      assign heading_font = settings.font_heading
+      assign body_font = settings.font_body
+      assign button_font = settings.font_button
+    -%}
+    {%- unless settings.use_custom_heading_font -%}
+      {{ heading_font | font_face: font_display: 'swap' }}
+    {%- else -%}
+      <style>
+        @font-face {
+          font-family: {{ settings.custom_heading_font_name | json }};
+          src: url('{{ settings.custom_heading_font_url | asset_url }}') format('woff2');
+          font-display: swap;
+        }
+      </style>
+    {%- endunless -%}
+    {%- unless settings.use_custom_body_font -%}
+      {{ body_font | font_face: font_display: 'swap' }}
+    {%- else -%}
+      <style>
+        @font-face {
+          font-family: {{ settings.custom_body_font_name | json }};
+          src: url('{{ settings.custom_body_font_url | asset_url }}') format('woff2');
+          font-display: swap;
+        }
+      </style>
+    {%- endunless -%}
+    {%- unless settings.use_custom_button_font -%}
+      {{ button_font | font_face: font_display: 'swap' }}
+    {%- else -%}
+      <style>
+        @font-face {
+          font-family: {{ settings.custom_button_font_name | json }};
+          src: url('{{ settings.custom_button_font_url | asset_url }}') format('woff2');
+          font-display: swap;
+        }
+      </style>
+    {%- endunless -%}
+    
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    <script src="{{ 'dark-mode.js' | asset_url }}" defer></script>
+    <script src="{{ 'animations.js' | asset_url }}" defer></script>
+    <script>
+      window.Shopify = window.Shopify || {};
+      window.Shopify.routes = window.Shopify.routes || {};
+      window.Shopify.routes.root = window.Shopify.routes.root || '{{ routes.root_url }}';
+    </script>
+    <script src="{{ 'component-cart-drawer.js' | asset_url }}" defer></script>
+    <script src="{{ 'component-product-form.js' | asset_url }}" defer></script>
+    <script src="{{ 'component-variant-selects.js' | asset_url }}" defer></script>
+    
+    {{ content_for_header }}
+  </head>
+  <body>
+    <a class="sr-only skip-to-content" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+    {%- section 'announcement-bar' -%}
+    {%- section 'header' -%}
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+    {%- section 'footer' -%}
+    {%- section 'cart-drawer' -%}
+    {{ content_for_footer }}
+  </body>
+</html>

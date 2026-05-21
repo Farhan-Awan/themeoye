@@ -1,0 +1,77 @@
+{%- comment -%}
+  Themeoye Color Swatch Snippet
+  - Inputs:
+    - value: The color name string (e.g., 'Rose Gold', 'Crimson', 'Emerald') (required)
+    - selected: Boolean, if selected (optional)
+{%- endcomment -%}
+
+{%- liquid
+  assign swatch_name = value | handle
+  assign custom_color = '#ffffff'
+  
+  case swatch_name
+    when 'black' or 'noir'
+      assign custom_color = '#000000'
+    when 'white' or 'blanc'
+      assign custom_color = '#ffffff'
+    when 'red' or 'rouge'
+      assign custom_color = '#cc1d1d'
+    when 'green' or 'vert'
+      assign custom_color = '#2d8653'
+    when 'blue' or 'bleu'
+      assign custom_color = '#1d62cc'
+    when 'gold' or 'or'
+      assign custom_color = 'linear-gradient(135deg, #c9a96e 0%, #e8d5b7 100%)'
+    when 'rose-gold'
+      assign custom_color = 'linear-gradient(135deg, #e0b0b0 0%, #ecd3d3 100%)'
+    when 'silver' or 'argent'
+      assign custom_color = 'linear-gradient(135deg, #d8d8d8 0%, #f0f0f0 100%)'
+    when 'pink' or 'rose'
+      assign custom_color = '#ffb3ba'
+    when 'beige'
+      assign custom_color = '#f5f5dc'
+    when 'brown' or 'marron'
+      assign custom_color = '#8b5a2b'
+    when 'orange'
+      assign custom_color = '#ff9900'
+    when 'yellow' or 'jaune'
+      assign custom_color = '#ffff00'
+    when 'purple' or 'violet'
+      assign custom_color = '#8a2be2'
+    else
+      // Generate a dynamic placeholder or check if files/swatch.png exists
+      assign custom_color = swatch_name
+  endcase
+-%}
+
+<span 
+  class="color-swatch-circle {% if selected %}is-active{% endif %}" 
+  style="background: {{ custom_color }};" 
+  title="{{ value }}"
+  aria-hidden="true"
+></span>
+
+<style>
+  .color-swatch-circle {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    position: relative;
+    transition: transform var(--duration-fast) var(--easing-spring), border-color var(--duration-fast) var(--easing-default);
+  }
+  .color-swatch-circle:hover {
+    transform: scale(1.15);
+    border-color: var(--color-border-strong);
+  }
+  .color-swatch-circle.is-active::after {
+    content: '';
+    position: absolute;
+    top: -4px; left: -4px; right: -4px; bottom: -4px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+</style>

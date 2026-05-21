@@ -1,0 +1,114 @@
+{%- comment -%}
+Outputs all :root and [data-theme="dark"] CSS variables from theme settings for dynamic theming.
+This snippet is included in <head> and updates on every settings change.
+{%- endcomment -%}
+
+<style id="themeoye-css-variables">
+  :root {
+    --color-primary: {{ settings.color_primary }};
+    --color-primary-hover: {{ settings.color_primary_hover }};
+    --color-secondary: {{ settings.color_secondary }};
+    --color-accent: {{ settings.color_accent }};
+    --color-background: {{ settings.color_background }};
+    --color-background-2: {{ settings.color_background_2 }};
+    --color-background-3: {{ settings.color_background_3 }};
+    --color-foreground: {{ settings.color_foreground }};
+    --color-foreground-secondary: {{ settings.color_foreground_secondary }};
+    --color-foreground-tertiary: {{ settings.color_foreground_tertiary }};
+    --color-button: {{ settings.color_button }};
+    --color-button-text: {{ settings.color_button_text }};
+    --color-button-hover: {{ settings.color_button_hover }};
+    --color-button-text-hover: {{ settings.color_button_text_hover }};
+    --color-button-outline: {{ settings.color_button_outline }};
+    --color-button-outline-border: {{ settings.color_button_outline_border }};
+    --color-button-outline-text: {{ settings.color_button_outline_text }};
+    --color-border: {{ settings.color_border }};
+    --color-border-strong: {{ settings.color_border_strong }};
+    --color-success: {{ settings.color_success }};
+    --color-error: {{ settings.color_error }};
+    --color-warning: {{ settings.color_warning }};
+    --color-info: {{ settings.color_info }};
+    --color-badge-sale: {{ settings.color_badge_sale }};
+    --color-badge-new: {{ settings.color_badge_new }};
+    --color-badge-text: {{ settings.color_badge_text }};
+    --color-overlay: {{ settings.color_overlay }};
+    --color-overlay-light: {{ settings.color_overlay_light }};
+
+    /* Typography */
+    --font-heading-family: {% if settings.use_custom_heading_font and settings.custom_heading_font_name != blank %}'{{ settings.custom_heading_font_name }}'{% else %}{{ settings.font_heading.family }}{% endif %};
+    --font-heading-weight: {% if settings.use_custom_heading_font %}700{% else %}{{ settings.font_heading.weight }}{% endif %};
+    --font-body-family: {% if settings.use_custom_body_font and settings.custom_body_font_name != blank %}'{{ settings.custom_body_font_name }}'{% else %}{{ settings.font_body.family }}{% endif %};
+    --font-body-weight: {% if settings.use_custom_body_font %}400{% else %}{{ settings.font_body.weight }}{% endif %};
+    --font-button-family: {% if settings.use_custom_button_font and settings.custom_button_font_name != blank %}'{{ settings.custom_button_font_name }}'{% else %}{{ settings.font_button.family }}{% endif %};
+    --font-button-weight: {% if settings.use_custom_button_font %}600{% else %}{{ settings.font_button.weight }}{% endif %};
+    --font-size-base: {{ settings.font_body_size | default: 16 }}px;
+    --font-size-heading: {{ settings.font_heading_size | default: 36 }}px;
+    --font-button-letter-spacing: {{ settings.font_button_letter_spacing | default: 0.08 }}em;
+    --font-button-transform: {{ settings.font_button_transform | default: 'uppercase' }};
+
+    /* Container & Spacing */
+    --container-max-width: {{ settings.container_width | default: '1400px' }};
+    --container-max-width-narrow: 720px;
+    --container-max-width-wide: 1600px;
+    --container-padding-x: {{ settings.container_padding_x | default: 32 }}px;
+    --container-padding-x-mobile: {{ settings.container_padding_x_mobile | default: 16 }}px;
+    --section-padding-top: {{ settings.section_padding_top | default: 80 }}px;
+    --section-padding-bottom: {{ settings.section_padding_bottom | default: 80 }}px;
+    --section-padding-top-mobile: {{ settings.section_padding_top_mobile | default: 48 }}px;
+    --section-padding-bottom-mobile: {{ settings.section_padding_bottom_mobile | default: 48 }}px;
+    --grid-gap: {{ settings.grid_gap | default: 24 }}px;
+    --grid-gap-mobile: {{ settings.grid_gap_mobile | default: 16 }}px;
+
+    /* Border Radius */
+    --border-radius-button: {{ settings.button_border_radius | default: 4 }}px;
+    --border-radius-card: {{ settings.card_border_radius | default: 8 }}px;
+    --border-radius-badge: 4px;
+    --border-radius-input: 4px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+    --shadow-xl: 0 16px 48px rgba(0,0,0,0.16);
+    --shadow-card-hover: 0 8px 32px rgba(0,0,0,0.14);
+
+    /* Z-Index */
+    --z-below: -1;
+    --z-base: 0;
+    --z-raised: 10;
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-overlay: 300;
+    --z-drawer: 400;
+    --z-modal: 500;
+    --z-notification: 600;
+    --z-tooltip: 700;
+
+    /* Transitions */
+    --duration-fast: 150ms;
+    --duration-normal: 300ms;
+    --duration-slow: 500ms;
+    --duration-slower: 800ms;
+    --easing-default: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --easing-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition-speed-global: {{ settings.transition_speed_global | default: 300 }}ms;
+  }
+
+  [data-theme="dark"] {
+    --color-background: #0F0F0F;
+    --color-background-2: #1A1A1A;
+    --color-background-3: #242424;
+    --color-foreground: #F5F4F0;
+    --color-foreground-secondary: #A8A8A8;
+    --color-foreground-tertiary: #6B6B6B;
+    --color-border: #2A2A2A;
+    --color-border-strong: #F5F4F0;
+    --color-button: #F5F4F0;
+    --color-button-text: #0F0F0F;
+    --color-button-hover: #C9A96E;
+    --color-button-text-hover: #0F0F0F;
+    --color-button-outline-border: #F5F4F0;
+    --color-button-outline-text: #F5F4F0;
+  }
+</style>

@@ -1,0 +1,120 @@
+{%- comment -%}
+  Themeoye Buy Buttons Snippet
+  - Inputs:
+    - product: Product object (required)
+    - show_quantity: Boolean, show quantity selector (optional)
+{%- endcomment -%}
+
+<div class="product-buy-buttons">
+  <product-form class="product-form">
+    <div class="product-form__error-message-wrapper" role="alert" hidden>
+      <span class="product-form__error-message"></span>
+    </div>
+
+    {%- form 'product', product, id: 'product-form-installment', class: 'form' -%}
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      
+      {% if show_quantity %}
+        <div class="product-form__input product-form__quantity">
+          <label class="form__label" for="Quantity-{{ section.id }}">{{ 'product.quantity' | t | default: 'Quantity' }}</label>
+          {% render 'quantity-input', id: 'Quantity-' | append: section.id %}
+        </div>
+      {% endif %}
+
+      <div class="product-form__buttons">
+        <button
+          type="submit"
+          name="add"
+          class="product-form__submit button button--full-width {% if product.selected_or_first_available_variant.available == false %}button--secondary{% else %}button--primary{% endif %}"
+          {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+        >
+          <span>
+            {%- if product.selected_or_first_available_variant.available -%}
+              {{ 'product.add_to_cart' | t | default: 'Add to Cart' }}
+            {%- else -%}
+              {{ 'product.sold_out' | t | default: 'Sold Out' }}
+            {%- endif -%}
+          </span>
+          <div class="loading-overlay__spinner hidden">
+            {% render 'loading-spinner' %}
+          </div>
+        </button>
+
+        {%- if settings.show_dynamic_checkout or show_dynamic_checkout -%}
+          <div class="dynamic-checkout-wrapper">
+            {{ form | payment_button }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endform -%}
+  </product-form>
+</div>
+
+<style>
+  .product-buy-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+  }
+  .product-form__quantity {
+    margin-bottom: 1.5rem;
+  }
+  .product-form__quantity .form__label {
+    display: block;
+    font-size: var(--font-size-sm, 0.875rem);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-foreground-secondary);
+  }
+  .product-form__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .product-form__submit {
+    position: relative;
+    width: 100%;
+    height: 48px;
+  }
+  .product-form__submit[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .product-form__submit .loading-overlay__spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .product-form__submit .loading-overlay__spinner.hidden {
+    display: none;
+  }
+  .product-form__submit.is-loading span {
+    visibility: hidden;
+  }
+  .product-form__submit.is-loading .loading-overlay__spinner {
+    display: block;
+  }
+  .product-form__error-message-wrapper {
+    background: rgba(204, 29, 29, 0.1);
+    border: 1px solid var(--color-error);
+    border-radius: var(--border-radius-input, 4px);
+    color: var(--color-error);
+    padding: 0.75rem 1rem;
+    font-size: var(--font-size-sm, 0.875rem);
+    margin-bottom: 1rem;
+  }
+  .dynamic-checkout-wrapper {
+    margin-top: 0.5rem;
+  }
+  .dynamic-checkout-wrapper .shopify-payment-button__button {
+    border-radius: var(--border-radius-button) !important;
+    font-family: var(--font-button-family) !important;
+    text-transform: var(--font-button-transform) !important;
+    letter-spacing: var(--font-button-letter-spacing) !important;
+    font-weight: var(--font-button-weight) !important;
+    padding: 0.75em 2em !important;
+    height: 48px !important;
+  }
+</style>

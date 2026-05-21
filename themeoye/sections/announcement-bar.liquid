@@ -1,0 +1,88 @@
+{%- comment -%}
+Themeoye Announcement Bar Section
+- Rotating messages, background/text color, auto-rotate, close button
+- Follows section schema and output pattern from master brief
+{%- endcomment -%}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "container_size", "label": "Container size", "options": [ { "value": "default", "label": "Default" }, { "value": "narrow", "label": "Narrow" }, { "value": "wide", "label": "Wide" }, { "value": "full", "label": "Full width" } ], "default": "default" },
+    { "type": "color", "id": "background", "label": "Section background", "default": "#0F0F0F" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Padding top (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Padding bottom (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
+    { "type": "checkbox", "id": "auto_rotate", "label": "Auto-rotate messages", "default": true },
+    { "type": "range", "id": "rotate_interval", "label": "Rotate interval (seconds)", "min": 2, "max": 10, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_close", "label": "Show close button", "default": true }
+  ],
+  "blocks": [
+    { "type": "message", "name": "Message", "settings": [ { "type": "text", "id": "text", "label": "Message text", "default": "Welcome to Themeoye!" } ] }
+  ],
+  "max_blocks": 5,
+  "presets": [ { "name": "Announcement Bar", "category": "Text" } ]
+}
+{% endschema %}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    background: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+  @media (min-width: 768px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="announcement-bar container container--{{ section.settings.container_size }}" role="region" aria-label="Announcement">
+  <div class="announcement-bar__messages" data-rotate="{{ section.settings.auto_rotate }}" data-interval="{{ section.settings.rotate_interval }}">
+    {% for block in section.blocks %}
+      <div class="announcement-bar__message" id="announcement-bar-message-{{ block.id }}" {% if forloop.first %}aria-current="true"{% endif %}>
+        {{ block.settings.text }}
+      </div>
+    {% endfor %}
+  </div>
+  {% if section.settings.show_close %}
+    <button class="announcement-bar__close" aria-label="Close" data-announcement-close>&times;</button>
+  {% endif %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var bar = document.querySelector('#shopify-section-{{ section.id }} .announcement-bar__messages');
+    if (!bar) return;
+    var rotate = bar.dataset.rotate === 'true';
+    var interval = parseInt(bar.dataset.interval, 10) * 1000;
+    var messages = bar.querySelectorAll('.announcement-bar__message');
+    var i = 0;
+    if (rotate && messages.length > 1) {
+      setInterval(function() {
+        messages[i].removeAttribute('aria-current');
+        messages[i].style.display = 'none';
+        i = (i + 1) % messages.length;
+        messages[i].setAttribute('aria-current', 'true');
+        messages[i].style.display = '';
+      }, interval);
+    }
+    // Hide bar on close
+    var closeBtn = document.querySelector('#shopify-section-{{ section.id }} [data-announcement-close]');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function() {
+        closeBtn.closest('.announcement-bar').style.display = 'none';
+      });
+    }
+    // Hide all but first message initially
+    messages.forEach(function(msg, idx) {
+      if (idx !== 0) msg.style.display = 'none';
+    });
+  });
+</script>

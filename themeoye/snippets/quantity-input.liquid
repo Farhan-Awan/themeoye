@@ -1,0 +1,113 @@
+{%- comment -%}
+  Themeoye Quantity Input Snippet
+  - Inputs:
+    - value: default value (optional, default: 1)
+    - min: minimum value (optional, default: 1)
+    - max: maximum value (optional)
+    - id: input id (optional)
+    - name: input name (optional, default: 'quantity')
+{%- endcomment -%}
+
+{%- liquid
+  assign current_value = value | default: 1
+  assign min_value = min | default: 1
+  assign input_name = name | default: 'quantity'
+  assign input_id = id | default: 'quantity-' | append: section.id
+-%}
+
+<quantity-input class="quantity-selector">
+  <button class="quantity-selector__btn quantity-selector__btn--decrease" type="button" aria-label="Decrease quantity">
+    {% render 'icon-minus' %}
+  </button>
+  <input
+    class="quantity-selector__input"
+    type="number"
+    name="{{ input_name }}"
+    id="{{ input_id }}"
+    min="{{ min_value }}"
+    {% if max != blank %}max="{{ max }}"{% endif %}
+    value="{{ current_value }}"
+    step="1"
+    aria-label="Quantity"
+  >
+  <button class="quantity-selector__btn quantity-selector__btn--increase" type="button" aria-label="Increase quantity">
+    {% render 'icon-plus' %}
+  </button>
+</quantity-input>
+
+<style>
+  .quantity-selector {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-input, 4px);
+    background: var(--color-background);
+    overflow: hidden;
+    height: 44px;
+    width: 130px;
+  }
+  .quantity-selector__btn {
+    width: 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-foreground);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background var(--duration-fast) var(--easing-default);
+  }
+  .quantity-selector__btn:hover {
+    background: var(--color-background-2);
+  }
+  .quantity-selector__input {
+    width: 50px;
+    height: 100%;
+    border: none;
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    text-align: center;
+    font-size: var(--font-size-md, 1rem);
+    background: transparent;
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+  .quantity-selector__input::-webkit-outer-spin-button,
+  .quantity-selector__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>
+
+<script>
+  if (!customElements.get('quantity-input')) {
+    class QuantityInput extends HTMLElement {
+      constructor() {
+        super();
+        this.input = this.querySelector('input');
+        this.changeEvent = new Event('change', { bubbles: true });
+
+        this.querySelectorAll('button').forEach(
+          button => button.addEventListener('click', this.onButtonClick.bind(this))
+        );
+      }
+
+      onButtonClick(event) {
+        event.preventDefault();
+        const previousValue = parseInt(this.input.value, 10) || 1;
+        const step = 1;
+        const min = this.input.hasAttribute('min') && !isNaN(parseInt(this.input.min, 10)) ? parseInt(this.input.min, 10) : 1;
+        
+        if (event.currentTarget.classList.contains('quantity-selector__btn--increase')) {
+          this.input.value = previousValue + step;
+        } else {
+          this.input.value = Math.max(min, previousValue - step);
+        }
+        
+        this.input.dispatchEvent(this.changeEvent);
+      }
+    }
+    customElements.define('quantity-input', QuantityInput);
+  }
+</script>

@@ -1,0 +1,61 @@
+{%- comment -%}
+Themeoye Hero Banner Section
+- Full-width hero, overlay, gradient, heading, subheading, CTA
+- Follows section schema and output pattern from master brief
+{%- endcomment -%}
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "container_size", "label": "Container size", "options": [ { "value": "default", "label": "Default" }, { "value": "narrow", "label": "Narrow" }, { "value": "wide", "label": "Wide" }, { "value": "full", "label": "Full width" } ], "default": "full" },
+    { "type": "color_background", "id": "background", "label": "Section background" },
+    { "type": "image_picker", "id": "image", "label": "Hero image" },
+    { "type": "checkbox", "id": "show_gradient", "label": "Show gradient overlay", "default": true },
+    { "type": "color", "id": "gradient_color", "label": "Gradient color", "default": "#000000" },
+    { "type": "range", "id": "gradient_opacity", "label": "Gradient opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 40 },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Welcome to Themeoye" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "A bold, minimal Shopify theme" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop now" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Padding top (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Padding bottom (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "presets": [ { "name": "Hero Banner", "category": "Image" } ]
+}
+{% endschema %}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    background: {{ section.settings.background }};
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+  @media (min-width: 768px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<section class="hero-banner container container--{{ section.settings.container_size }}">
+  <div class="hero-banner__media" style="position:relative;">
+    {% if section.settings.image != blank %}
+      <img src="{{ section.settings.image | image_url: width: 1500 }}" alt="{{ section.settings.heading | escape }}" class="themeoye-image" loading="lazy">
+      {% if section.settings.show_gradient %}
+        <div class="hero-banner__gradient" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba({{ section.settings.gradient_color | remove: '#' | slice: 0,2 | prepend: '0x' }},{{ section.settings.gradient_opacity | divided_by: 100.0 }}),transparent);opacity:{{ section.settings.gradient_opacity | divided_by: 100.0 }};"></div>
+      {% endif %}
+    {% endif %}
+    <div class="hero-banner__content">
+      <h1 data-animate>{{ section.settings.heading }}</h1>
+      <p data-animate style="transition-delay: 200ms;">{{ section.settings.subheading }}</p>
+      {% if section.settings.cta_link and section.settings.cta_label %}
+        <div data-animate style="transition-delay: 400ms;"><a href="{{ section.settings.cta_link }}" class="button">{{ section.settings.cta_label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>

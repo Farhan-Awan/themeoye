@@ -1,0 +1,33 @@
+{%- comment -%}
+  Themeoye Responsive Image Snippet
+  - Inputs:
+    - image: Shopify Image object (required)
+    - sizes: custom sizes string (optional, default provided)
+    - class: custom class names (optional)
+    - alt: alternative text (optional)
+    - loading: eager or lazy (optional, default: lazy)
+    - placeholder: name of the fallback placeholder (optional, default: 'image')
+{%- endcomment -%}
+
+{%- liquid
+  assign image_alt = alt | default: image.alt | default: shop.name | escape
+  assign image_class = class | default: 'themeoye-image'
+  assign image_loading = loading | default: 'lazy'
+  assign image_sizes = sizes | default: '(min-width: 1400px) 700px, (min-width: 768px) 50vw, 100vw'
+  assign fallback_placeholder = placeholder | default: 'image'
+-%}
+
+{%- if image != blank -%}
+  {{
+    image
+    | image_url: width: 1500
+    | image_tag:
+      loading: image_loading,
+      widths: '375, 550, 750, 1100, 1500, 2000',
+      sizes: image_sizes,
+      class: image_class,
+      alt: image_alt
+  }}
+{%- else -%}
+  {{ fallback_placeholder | placeholder_svg_tag: 'placeholder-svg placeholder-svg--empty' }}
+{%- endif -%}

@@ -15,6 +15,13 @@
         "testimonial_aTEnKA": {
           "type": "testimonial",
           "settings": {
+            "quote": "adfsasdf",
+            "author": "adsfadsfasdfadsf"
+          }
+        },
+        "testimonial_LDAmdp": {
+          "type": "testimonial",
+          "settings": {
             "quote": "",
             "author": ""
           }
@@ -43,6 +50,7 @@
       },
       "block_order": [
         "testimonial_aTEnKA",
+        "testimonial_LDAmdp",
         "testimonial_47DgHA",
         "testimonial_6iV4zR",
         "testimonial_iz9FGV"

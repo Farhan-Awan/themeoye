@@ -1,1 +1,62 @@
-{"sections":{"main":{"type":"main-product"}},"order":["main"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title_RLAaHb": {
+          "type": "title",
+          "settings": {
+            "show_vendor": true
+          }
+        },
+        "variant_picker_B6DbEt": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "swatch"
+          }
+        },
+        "buy_buttons_bcG7nA": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "price_a4Hk4F": {
+          "type": "price",
+          "settings": {}
+        },
+        "description_FWCR7N": {
+          "type": "description",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title_RLAaHb",
+        "variant_picker_B6DbEt",
+        "buy_buttons_bcG7nA",
+        "price_a4Hk4F",
+        "description_FWCR7N"
+      ],
+      "settings": {
+        "container_size": "default",
+        "background": "",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 48,
+        "padding_bottom_mobile": 48
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

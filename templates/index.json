@@ -1,1 +1,35 @@
-{"sections":{"hero":{"type":"hero-banner"},"featured":{"type":"featured-collection"},"image_with_text":{"type":"image-with-text"},"promotional":{"type":"promotional-grid"}},"order":["hero","featured","image_with_text","promotional"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "settings": {}
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {}
+    },
+    "image_with_text": {
+      "type": "image-with-text",
+      "settings": {}
+    },
+    "promotional": {
+      "type": "promotional-grid",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "featured",
+    "image_with_text",
+    "promotional"
+  ]
+}

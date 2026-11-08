@@ -108,7 +108,7 @@
             {%- when 'quantity_selector' -%}
               <div class="product-block product-block--quantity" {{ block.shopify_attributes }}>
                 <label class="form__label">{{ 'product.quantity' | t | default: 'Quantity' }}</label>
-                {% render 'quantity-input', id: 'Quantity-' | append: section.id %}
+                {% render 'quantity-input', id: 'Quantity-', append: section.id %}
               </div>
 
             {%- when 'buy_buttons' -%}
@@ -327,3 +327,13 @@
   } ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'quantity-input', id: 'Quantity-' | append: section.id %}"
+  to: "{% render 'quantity-input', id: 'Quantity-', append: section.id %}"
+  position: 5279..5345
+{% endcomment %}

@@ -17,7 +17,7 @@
       {% if show_quantity %}
         <div class="product-form__input product-form__quantity">
           <label class="form__label" for="Quantity-{{ section.id }}">{{ 'product.quantity' | t | default: 'Quantity' }}</label>
-          {% render 'quantity-input', id: 'Quantity-' | append: section.id %}
+          {% render 'quantity-input', id: 'Quantity-', append: section.id %}
         </div>
       {% endif %}
 
@@ -118,3 +118,13 @@
     height: 48px !important;
   }
 </style>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'quantity-input', id: 'Quantity-' | append: section.id %}"
+  to: "{% render 'quantity-input', id: 'Quantity-', append: section.id %}"
+  position: 819..885
+{% endcomment %}

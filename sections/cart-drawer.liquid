@@ -47,12 +47,7 @@
                     </div>
 
                     <div class="drawer__item-controls">
-                      {% render 'quantity-input', 
-                        value: item.quantity, 
-                        name: 'updates[]', 
-                        id: 'Updates-' | append: item.index | plus: 1,
-                        min: 0
-                      %}
+                      {% render 'quantity-input', value: item.quantity, name: 'updates[]', id: 'Updates-', append: item.index, plus: 1, min: 0 %}
                       
                       <a href="/cart/change?line={{ item.index | plus: 1 }}&quantity=0" class="drawer__item-remove" data-remove-key="{{ item.key }}" aria-label="Remove item">
                         Remove
@@ -262,3 +257,16 @@
   "presets": [ { "name": "Cart Drawer", "category": "Cart" } ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'quantity-input', \n                        value: item.quantity,
+    \n                        name: 'updates[]', \n                        id: 'Updates-'
+    | append: item.index | plus: 1,\n                        min: 0\n                      %}"
+  to: "{% render 'quantity-input', value: item.quantity, name: 'updates[]', id: 'Updates-',
+    append: item.index, plus: 1, min: 0 %}"
+  position: 2447..2570
+{% endcomment %}
